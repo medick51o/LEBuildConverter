@@ -74,6 +74,16 @@ dotnet publish LEBuildConverter.WPF/LEBuildConverter.WPF.csproj \
   -p:IncludeAllContentForSelfExtract=true
 ```
 
+## Disclaimer
+
+This is a free, non-commercial community tool made by a Last Epoch player who just wanted an easier way to move builds between planners so he could use maxroll's loot filters.
+
+**LE Build Converter is not affiliated with, endorsed by, or sponsored by** Eleventh Hour Games, lastepochtools.com, or maxroll.gg. All item, skill, affix, and passive data is the property of Eleventh Hour Games. Planner format credit goes to lastepochtools.com and maxroll.gg respectively.
+
+No ads. No analytics. No user data collected. No monetization of any kind. The tool is open source (MIT license) so anyone can verify exactly what it does.
+
+If lastepochtools, maxroll, or EHG would like this tool taken down or modified, please open an issue on this repo and I will comply promptly. This tool exists because I love the Last Epoch community and want to make it easier for players to share and test builds — not to harm or compete with anyone.
+
 ## License
 
 MIT — see LICENSE.

@@ -355,6 +355,28 @@
                             </TextBlock>
                         </StackPanel>
                     </Border>
+
+                    <!-- Disclaimer -->
+                    <Border Background="#1e1e22" BorderBrush="#3a3a3e" BorderThickness="1"
+                            CornerRadius="4" Padding="16,12" Margin="0,12,0,0">
+                        <StackPanel>
+                            <TextBlock Text="Disclaimer" FontSize="13" FontWeight="Bold"
+                                       Foreground="#888" Margin="0,0,0,8" />
+                            <TextBlock TextWrapping="Wrap" FontSize="11" Foreground="#888" LineHeight="17">
+                                <Run Text="This is a free, non-commercial community tool made by a Last Epoch player who just wanted an easier way to move builds between planners so he could use maxroll's loot filters." />
+                            </TextBlock>
+                            <TextBlock TextWrapping="Wrap" FontSize="11" Foreground="#888" LineHeight="17" Margin="0,8,0,0">
+                                <Run FontWeight="Bold" Text="LE Build Converter is not affiliated with, endorsed by, or sponsored by" />
+                                <Run Text=" Eleventh Hour Games, lastepochtools.com, or maxroll.gg. All item, skill, affix, and passive data is the property of Eleventh Hour Games. Planner format credit goes to lastepochtools.com and maxroll.gg respectively." />
+                            </TextBlock>
+                            <TextBlock TextWrapping="Wrap" FontSize="11" Foreground="#888" LineHeight="17" Margin="0,8,0,0">
+                                <Run Text="No ads. No analytics. No user data collected. No monetization of any kind. The tool is open source (MIT license) so anyone can verify exactly what it does." />
+                            </TextBlock>
+                            <TextBlock TextWrapping="Wrap" FontSize="11" Foreground="#888" LineHeight="17" Margin="0,8,0,0">
+                                <Run Text="If lastepochtools, maxroll, or EHG would like this tool taken down or modified, please open an issue on the GitHub repo and I will comply promptly. This tool exists because I love the Last Epoch community and want to make it easier for players to share and test builds — not to harm or compete with anyone." />
+                            </TextBlock>
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
             </ScrollViewer>
 
@@ -362,11 +384,24 @@
 
         <!-- ════════════════════════ FOOTER ════════════════════════ -->
         <Border Grid.Row="2" Background="#252528" Padding="12,6" CornerRadius="4" Margin="0,12,0,0">
-            <TextBlock FontSize="11" Foreground="#666">
-                <Run Text="LE Build Converter v1.0.0" />
-                <Run Text="  •  " />
-                <Run Text="{Binding StatusMessage, Mode=OneWay}" Foreground="#8c8" />
-            </TextBlock>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" FontSize="11" Foreground="#666" VerticalAlignment="Center">
+                    <Run Text="LE Build Converter v1.0.1" />
+                    <Run Text="  •  " />
+                    <Run Text="{Binding StatusMessage, Mode=OneWay}" Foreground="#8c8" />
+                </TextBlock>
+
+                <TextBlock Grid.Column="2" FontSize="10" Foreground="#555" VerticalAlignment="Center"
+                           TextTrimming="CharacterEllipsis">
+                    Free community tool. Not affiliated with lastepochtools.com, maxroll.gg, or Eleventh Hour Games. Open source (MIT).
+                </TextBlock>
+            </Grid>
         </Border>
     </Grid>
 </Window>
