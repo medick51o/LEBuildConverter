@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:LEBuildConverter.WPF.ViewModels"
         mc:Ignorable="d"
         Title="LE Build Converter — lastepochtools → maxroll"
-        Height="720" Width="1000"
+        Height="900" Width="1100"
         MinHeight="600" MinWidth="800"
         Background="#1e1e22">
     <Window.DataContext>
@@ -15,6 +15,7 @@
     </Window.DataContext>
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <vm:ScreenshotPathConverter x:Key="Screenshot" />
 
         <!-- Base text style -->
         <Style TargetType="TextBlock">
@@ -160,11 +161,11 @@
                         <StackPanel Grid.Column="0" Margin="0,0,8,0">
                             <TextBlock Text="Equipment" FontWeight="Bold" FontSize="14"
                                        Foreground="#fa9e3d" Margin="0,0,0,4" />
-                            <ListBox ItemsSource="{Binding EquipmentLines}" Height="220" />
+                            <ListBox ItemsSource="{Binding EquipmentLines}" Height="240" />
 
                             <TextBlock Text="Idols" FontWeight="Bold" FontSize="14"
                                        Foreground="#fa9e3d" Margin="0,12,0,4" />
-                            <ListBox ItemsSource="{Binding IdolLines}" Height="140" />
+                            <ListBox ItemsSource="{Binding IdolLines}" Height="160" />
                         </StackPanel>
 
                         <!-- Right column: skills + blessings -->
@@ -175,18 +176,20 @@
 
                             <TextBlock Text="Blessings" FontWeight="Bold" FontSize="14"
                                        Foreground="#fa9e3d" Margin="0,12,0,4" />
-                            <ListBox ItemsSource="{Binding BlessingLines}" Height="200" />
+                            <ListBox ItemsSource="{Binding BlessingLines}" Height="240" />
                         </StackPanel>
                     </Grid>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,16,0,0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
                         <Button Content="← Back"
                                 Command="{Binding BackToInputCommand}"
                                 Style="{StaticResource SecondaryButton}"
-                                Width="120" Margin="0,0,8,0" />
+                                Width="140" Height="48" Margin="0,0,12,0"
+                                FontSize="14" />
                         <Button Content="Start Import Wizard →"
                                 Command="{Binding StartWizardCommand}"
-                                Width="220" />
+                                Width="260" Height="48"
+                                FontSize="15" />
                     </StackPanel>
                 </StackPanel>
             </ScrollViewer>
@@ -220,7 +223,7 @@
                 <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="340" />
+                        <ColumnDefinition Width="440" />
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Grid.Column="0" Margin="0,0,12,0">
@@ -247,19 +250,24 @@
                                    Foreground="#8c8" Margin="0,8,0,0" FontSize="12" />
                     </StackPanel>
 
-                    <!-- Screenshot placeholder -->
+                    <!-- Screenshot -->
                     <Border Grid.Column="1" Background="#2d2d30" CornerRadius="4"
-                            BorderBrush="#555" BorderThickness="1">
-                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <TextBlock Text="📸" FontSize="48" HorizontalAlignment="Center"
-                                       Foreground="#555" />
-                            <TextBlock Text="Screenshot placeholder"
-                                       FontSize="13" Foreground="#888"
-                                       HorizontalAlignment="Center" Margin="0,8,0,0" />
-                            <TextBlock Text="{Binding CurrentStep.ScreenshotName}"
-                                       FontSize="10" Foreground="#555" FontFamily="Consolas"
-                                       HorizontalAlignment="Center" Margin="0,4,0,0" />
-                        </StackPanel>
+                            BorderBrush="#555" BorderThickness="1" Padding="4">
+                        <Grid>
+                            <!-- Fallback placeholder (shown when image missing) -->
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock Text="📸" FontSize="48" HorizontalAlignment="Center"
+                                           Foreground="#555" />
+                                <TextBlock Text="{Binding CurrentStep.ScreenshotName}"
+                                           FontSize="10" Foreground="#555" FontFamily="Consolas"
+                                           HorizontalAlignment="Center" Margin="0,4,0,0" />
+                            </StackPanel>
+                            <!-- Actual screenshot — hides placeholder when loaded -->
+                            <Image Source="{Binding CurrentStep.ScreenshotName, Converter={StaticResource Screenshot}}"
+                                   Stretch="Uniform"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" />
+                        </Grid>
                     </Border>
                 </Grid>
 
@@ -293,11 +301,28 @@
                     <TextBlock Text="Build imported!"
                                FontSize="24" FontWeight="Bold" HorizontalAlignment="Center"
                                Margin="0,8,0,0" />
+
+                    <!-- SAVE reminder banner -->
+                    <Border Background="#4a2d00" BorderBrush="#fa9e3d" BorderThickness="1"
+                            CornerRadius="4" Padding="12,10" Margin="0,16,0,0">
+                        <StackPanel>
+                            <TextBlock Foreground="#fa9e3d" FontWeight="Bold" FontSize="13"
+                                       HorizontalAlignment="Center">
+                                <Run Text="⚠ DON'T FORGET TO SAVE" />
+                            </TextBlock>
+                            <TextBlock Foreground="#ddd" FontSize="12" Margin="0,6,0,0"
+                                       TextWrapping="Wrap" TextAlignment="Center">
+                                In maxroll's planner, click the save icon (top right) to persist this build
+                                to your account. If you close the tab without saving, the build is lost.
+                            </TextBlock>
+                        </StackPanel>
+                    </Border>
+
                     <TextBlock TextWrapping="Wrap" TextAlignment="Center"
                                FontSize="13" Foreground="#aaa" Margin="0,16,0,0">
-                        Your build is now on maxroll's planner. If you have Ash's Last Epoch Mods (LE_hud)
-                        installed, you can now paste the maxroll URL into its gear spawner to load this build
-                        in-game instantly.
+                        After saving, you'll get a shareable maxroll planner URL. If you have Ash's Last Epoch Mods
+                        (LE_hud) installed, paste that URL into its gear spawner to load this build in-game
+                        instantly.
                     </TextBlock>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,24,0,0">
                         <Button Content="Convert Another Build"
@@ -311,11 +336,22 @@
                         <StackPanel>
                             <TextBlock Text="Credits" FontSize="13" FontWeight="Bold"
                                        Foreground="#fa9e3d" Margin="0,0,0,8" />
+
                             <TextBlock TextWrapping="Wrap" FontSize="11" Foreground="#aaa" LineHeight="17">
                                 <Run FontWeight="Bold" Foreground="#e0e0e0" Text="Thanks to Frozen Sentinel" />
                                 <Run Text=" — their Runemaster build was published simultaneously to both lastepochtools.com and maxroll.gg, and we used that paired build as our " />
                                 <Run FontWeight="Bold" Foreground="#fa9e3d" Text="Rosetta Stone" />
                                 <Run Text=" to compare the two planner formats side-by-side. Diffing the raw JSON exports confirmed that lastepochtools' lz-string-encoded item/affix IDs decode to the exact same game-internal integers maxroll uses — and having that paired reference made the whole conversion process far easier to figure out." />
+                            </TextBlock>
+
+                            <TextBlock TextWrapping="Wrap" FontSize="11" Foreground="#aaa" LineHeight="17" Margin="0,12,0,0">
+                                <Run FontWeight="Bold" Foreground="#e0e0e0" Text="Thanks to BinaQc" />
+                                <Run Text=" and the maxroll team — the loot filter system they built for this season is the reason this tool exists at all. I kept wanting to pull builds from lastepochtools into maxroll just to use their loot filters, and after doing it manually one too many times, I finally built this thing. The maxroll loot filters are the best in the game. Go check them out." />
+                            </TextBlock>
+
+                            <TextBlock TextWrapping="Wrap" FontSize="11" Foreground="#aaa" LineHeight="17" Margin="0,12,0,0">
+                                <Run FontWeight="Bold" Foreground="#e0e0e0" Text="AaronActionRPG is cool" />
+                                <Run Text=" — he did nothing to help with this tool, but he's a staple of the Last Epoch content creator community and I figured I'd shout him out anyway." />
                             </TextBlock>
                         </StackPanel>
                     </Border>
@@ -327,7 +363,7 @@
         <!-- ════════════════════════ FOOTER ════════════════════════ -->
         <Border Grid.Row="2" Background="#252528" Padding="12,6" CornerRadius="4" Margin="0,12,0,0">
             <TextBlock FontSize="11" Foreground="#666">
-                <Run Text="LE Build Converter v1.0" />
+                <Run Text="LE Build Converter v1.0.0" />
                 <Run Text="  •  " />
                 <Run Text="{Binding StatusMessage, Mode=OneWay}" Foreground="#8c8" />
             </TextBlock>

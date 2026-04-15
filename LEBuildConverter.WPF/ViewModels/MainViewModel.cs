@@ -135,6 +135,17 @@ public partial class MainViewModel : ObservableObject
     {
         CurrentStepIndex = 0;
         State = AppState.Wizard;
+
+        // NOTE: If CurrentStepIndex was already 0 (default on first run), the
+        // source-generated setter skipped the PropertyChanged event, so the
+        // wizard view would render blank until the user clicked Next.  Force
+        // the computed properties to re-notify so the bindings always pick
+        // up the freshly-built Steps list.
+        OnPropertyChanged(nameof(CurrentStep));
+        OnPropertyChanged(nameof(StepProgressText));
+        OnPropertyChanged(nameof(CanGoBack));
+        OnPropertyChanged(nameof(CanGoNext));
+        OnPropertyChanged(nameof(NextButtonText));
     }
 
     [RelayCommand]
@@ -221,9 +232,15 @@ public partial class MainViewModel : ObservableObject
         Steps.Add(new WizardStep(
             title: $"{stepNum++}. Open maxroll planner",
             instructions:
-                "Click the button below to open a fresh maxroll Last Epoch planner in your browser. " +
-                "Leave that tab open — you'll paste data into it on each of the next steps.\n\n" +
-                "When the planner page loads, click the \"Export/Import\" button near the top right.",
+                "⚠ BEFORE YOU START — you need a free maxroll.gg account and you need to be LOGGED IN.\n\n" +
+                "Without a login, any build you import into maxroll is temporary and disappears when you " +
+                "close the browser tab. With a login, you can save the imported build as a profile you " +
+                "can revisit, share, or pull into Ash's LE_hud mod in-game. Sign up at maxroll.gg " +
+                "(top right \"Sign In / Sign Up\") if you haven't already.\n\n" +
+                "Once you're logged in:\n" +
+                "1. Click the \"Open maxroll\" button below — it opens a fresh Last Epoch planner in your browser.\n" +
+                "2. Leave that tab open — you'll paste data into it on each of the next steps.\n" +
+                "3. When the planner page loads, look for the \"Export/Import\" button near the top right.",
             jsonToCopy: "",
             screenshotName: "step01_open_maxroll.png"));
 
@@ -241,9 +258,15 @@ public partial class MainViewModel : ObservableObject
         Steps.Add(new WizardStep(
             title: $"{stepNum++}. Paste All Equipment",
             instructions:
-                "Click \"Copy to Clipboard\" below. Then in maxroll, click Export/Import → \"All Equipment\" tab, " +
-                "paste into the textarea, and click \"Import All Equipment\".\n\n" +
-                "This imports gear, idols, blessings, and the woven echo altar all in one shot.",
+                "1. Click \"Copy to Clipboard\" below.\n" +
+                "2. In maxroll, click the \"Export/Import\" button near the top right.\n" +
+                "3. Paste directly into the empty text box in the dialog.\n" +
+                "4. Click the \"Import\" button at the bottom.\n\n" +
+                "⚠ DO NOT click the \"All Equipment\" / \"Equipment\" / \"Idols\" / \"Blessings\" / " +
+                "\"Weaver Tree\" / \"Passives\" buttons at the TOP of the dialog — those are EXPORT buttons " +
+                "and will overwrite your paste with blank data from the empty planner.\n\n" +
+                "Maxroll auto-detects what you pasted and imports gear, idols, blessings, and the woven " +
+                "echo altar all in one shot.",
             jsonToCopy: blobs.AllEquipment.ToJsonString(),
             screenshotName: "step03_paste_equipment.png"));
 
@@ -255,11 +278,15 @@ public partial class MainViewModel : ObservableObject
                 $"    {summary.ClassName} → {summary.MasteryName}\n\n" +
                 "If you're still on the default Primalist / base class, change it NOW — maxroll will " +
                 "silently reject the passives otherwise (the node IDs are namespaced per class).\n\n" +
-                "Once the correct mastery is selected, click \"Copy to Clipboard\" below. Then in maxroll, " +
-                "click Export/Import → \"Passives\" tab, paste, and click Import.\n\n" +
+                "Steps (same pattern as All Equipment):\n" +
+                "1. Click \"Copy to Clipboard\" below.\n" +
+                "2. In maxroll, click Export/Import.\n" +
+                "3. Paste directly into the text box.\n" +
+                "4. Click Import at the bottom.\n\n" +
+                "Maxroll auto-detects the passives JSON — no need to click the \"Passives\" tab button. " +
                 "The passive tree should fill in and 0 unspent points should show.",
             jsonToCopy: blobs.Passives.ToJsonString(),
-            screenshotName: "step04_paste_passives.png"));
+            screenshotName: "step03_paste_equipment.png"));
 
         // Step 5 — Weaver Tree (only if populated)
         if (summary.WeaverPointsSpent > 0)
@@ -267,10 +294,14 @@ public partial class MainViewModel : ObservableObject
             Steps.Add(new WizardStep(
                 title: $"{stepNum++}. Paste Weaver Tree",
                 instructions:
-                    "Click \"Copy to Clipboard\" below. Then in maxroll, click Export/Import → \"Weaver Tree\" tab, " +
-                    "paste, and click Import.",
+                    "Same flow as the previous paste steps:\n" +
+                    "1. Click \"Copy to Clipboard\" below.\n" +
+                    "2. In maxroll, click Export/Import.\n" +
+                    "3. Paste into the text box.\n" +
+                    "4. Click Import.\n\n" +
+                    "Maxroll auto-detects the weaver tree JSON and applies it.",
                 jsonToCopy: blobs.WeaverTree.ToJsonString(),
-                screenshotName: "step05_paste_weaver.png"));
+                screenshotName: "step03_paste_equipment.png"));
         }
 
         // Step 6 — Specialize skills (informational)
@@ -292,10 +323,33 @@ public partial class MainViewModel : ObservableObject
             Steps.Add(new WizardStep(
                 title: $"{stepNum++}. Paste {skill.SkillName}",
                 instructions:
-                    $"Click \"Copy to Clipboard\" below, then in maxroll's Export/Import dialog click the " +
-                    $"\"{skill.SkillName}\" button and paste.",
+                    $"Same flow as previous paste steps:\n" +
+                    $"1. Click \"Copy to Clipboard\" below.\n" +
+                    $"2. In maxroll, click Export/Import.\n" +
+                    $"3. Paste into the text box.\n" +
+                    $"4. Click Import.\n\n" +
+                    $"Maxroll auto-detects the skill tree JSON for {skill.SkillName} and applies it " +
+                    $"to that specialized skill (from the previous Specialize Skills step).",
                 jsonToCopy: skillBlob.ToJsonString(),
-                screenshotName: $"step_skill_{skill.TreeId}.png"));
+                screenshotName: "step03_paste_equipment.png"));
         }
+
+        // Final step — Save the build
+        Steps.Add(new WizardStep(
+            title: $"{stepNum++}. Save your build",
+            instructions:
+                "The build is now fully imported into maxroll — but it won't stick around unless " +
+                "you save it to your maxroll account.\n\n" +
+                "1. In the maxroll planner, click the ⚙ settings cog near the top right (yellow arrow " +
+                "in the screenshot).\n" +
+                "2. In the Save dialog that opens, give the build a name and click Save.\n" +
+                "3. Maxroll generates a shareable URL that stays tied to your account.\n\n" +
+                "Once saved, you can:\n" +
+                "• Archive the build in your maxroll profile for future use\n" +
+                "• Paste the URL into Ash's LE_hud mod gear spawner to load it in-game\n" +
+                "• Generate a maxroll loot filter from the build — shoutout to BinaQc and the " +
+                "maxroll team for the loot filter system that made this whole tool worth building",
+            jsonToCopy: "",
+            screenshotName: "step_save_build.png"));
     }
 }

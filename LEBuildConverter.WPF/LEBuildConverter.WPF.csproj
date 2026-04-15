@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
     <ProjectReference Include="..\LEBuildConverter.Core\LEBuildConverter.Core.csproj" />
@@ -6,6 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Wizard screenshots: embedded as resources in the assembly -->
+    <Resource Include="Assets\screenshots\*.png" />
   </ItemGroup>
 
   <PropertyGroup>

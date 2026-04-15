@@ -25,3 +25,15 @@ run_output.log
 # OS
 Thumbs.db
 .DS_Store
+
+# Local dev publish folders
+out_v2/
+out_v3/
+out_v4/
+out_v5/
+out_v6/
+out_v7/
+out_v8/
+
+# Raw screenshot captures (processed versions land in Assets/screenshots)
+raw_screenshots/
