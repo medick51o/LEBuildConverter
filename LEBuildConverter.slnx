@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="LEBuildConverter.Core/LEBuildConverter.Core.csproj" />
+  <Project Path="LEBuildConverter.Tester/LEBuildConverter.Tester.csproj" />
+  <Project Path="LEBuildConverter.WPF/LEBuildConverter.WPF.csproj" />
+</Solution>

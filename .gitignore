@@ -1,0 +1,26 @@
+# Build output
+bin/
+obj/
+publish_v2/
+release_slim/
+release/
+
+# Release artifacts (attached to GitHub Releases, not committed)
+*.zip
+
+# Test output
+*.log
+run_output.log
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# IDE
+.idea/
+*.swp
+
+# OS
+Thumbs.db
+.DS_Store
