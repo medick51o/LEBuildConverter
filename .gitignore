@@ -3,6 +3,7 @@ bin/
 obj/
 publish_v2/
 release_slim/
+release_slim_new/
 release/
 
 # Release artifacts (attached to GitHub Releases, not committed)

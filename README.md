@@ -4,6 +4,10 @@ Windows app that converts **lastepochtools.com** builds for import into **maxrol
 
 Paste a lastepochtools URL → app fetches the build → walks you through pasting each category (equipment, passives, weaver tree, skills) into maxroll's Export/Import dialog.
 
+## Credits
+
+**Thanks to Frozen Sentinel** — their Runemaster build was published simultaneously to both lastepochtools.com and maxroll.gg, and we used that paired build as our **Rosetta Stone** to compare the two planner formats side-by-side. Diffing the raw JSON exports confirmed that lastepochtools' lz-string-encoded item/affix IDs decode to the exact same game-internal integers maxroll uses — and having that paired reference made the whole conversion process far easier to figure out.
+
 ## How to run
 
 ### Option 1: Run the published .exe (easiest)

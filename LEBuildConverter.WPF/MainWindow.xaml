@@ -285,8 +285,9 @@
             </Grid>
 
             <!-- ─── DONE STATE ─── -->
-            <Grid Visibility="{Binding IsDoneState, Converter={StaticResource BoolToVis}}">
-                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="600">
+            <ScrollViewer Visibility="{Binding IsDoneState, Converter={StaticResource BoolToVis}}"
+                          VerticalScrollBarVisibility="Auto">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="640" Margin="0,20,0,20">
                     <TextBlock Text="✓" FontSize="64" Foreground="#4ade80"
                                HorizontalAlignment="Center" />
                     <TextBlock Text="Build imported!"
@@ -303,8 +304,23 @@
                                 Command="{Binding RestartCommand}"
                                 Width="220" Height="44" />
                     </StackPanel>
+
+                    <!-- Credits -->
+                    <Border Background="#252528" BorderBrush="#3a3a3e" BorderThickness="1"
+                            CornerRadius="4" Padding="16,12" Margin="0,32,0,0">
+                        <StackPanel>
+                            <TextBlock Text="Credits" FontSize="13" FontWeight="Bold"
+                                       Foreground="#fa9e3d" Margin="0,0,0,8" />
+                            <TextBlock TextWrapping="Wrap" FontSize="11" Foreground="#aaa" LineHeight="17">
+                                <Run FontWeight="Bold" Foreground="#e0e0e0" Text="Thanks to Frozen Sentinel" />
+                                <Run Text=" — their Runemaster build was published simultaneously to both lastepochtools.com and maxroll.gg, and we used that paired build as our " />
+                                <Run FontWeight="Bold" Foreground="#fa9e3d" Text="Rosetta Stone" />
+                                <Run Text=" to compare the two planner formats side-by-side. Diffing the raw JSON exports confirmed that lastepochtools' lz-string-encoded item/affix IDs decode to the exact same game-internal integers maxroll uses — and having that paired reference made the whole conversion process far easier to figure out." />
+                            </TextBlock>
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
-            </Grid>
+            </ScrollViewer>
 
         </Grid>
 
