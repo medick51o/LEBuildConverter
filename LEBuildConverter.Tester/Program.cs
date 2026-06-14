@@ -62,7 +62,7 @@ foreach (var b in summary.Blessings)
 
 // ── 6. Verify against known Python output ──
 Console.WriteLine("\n-- Compare to Python output --");
-string pythonOutDir = @"C:\Users\andre\Downloads\LastEpoch-Mods\LEBuildConverter\output_BakypDvx";
+string pythonOutDir = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile), @"Downloads\LastEpoch-Mods\LEBuildConverter\output_BakypDvx");
 if (Directory.Exists(pythonOutDir))
 {
     string pythonAllEquip = File.ReadAllText(Path.Combine(pythonOutDir, "01_all_equipment.json"));

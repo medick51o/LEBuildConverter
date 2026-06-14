@@ -3,7 +3,7 @@ import os
 import struct
 import zlib
 
-OUT_DIR = r"C:\Users\andre\Downloads\LastEpoch-Mods\LEBuildConverter_WPF\LEBuildConverter.WPF\Assets\screenshots"
+OUT_DIR = os.path.expanduser(r"~\Downloads\LastEpoch-Mods\LEBuildConverter_WPF\LEBuildConverter.WPF\Assets\screenshots")
 
 def make_png(path: str, width: int = 400, height: int = 300, color=(45, 45, 48)):
     """Create a simple solid-color PNG with border using stdlib only."""

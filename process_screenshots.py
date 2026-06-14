@@ -8,8 +8,8 @@ background color that matches the app theme if needed.
 import os
 from PIL import Image, ImageOps
 
-RAW_DIR   = r"C:\Users\andre\Downloads\LastEpoch-Mods\LEBuildConverter_WPF\raw_screenshots"
-FINAL_DIR = r"C:\Users\andre\Downloads\LastEpoch-Mods\LEBuildConverter_WPF\LEBuildConverter.WPF\Assets\screenshots"
+RAW_DIR   = os.path.expanduser(r"~\Downloads\LastEpoch-Mods\LEBuildConverter_WPF\raw_screenshots")
+FINAL_DIR = os.path.expanduser(r"~\Downloads\LastEpoch-Mods\LEBuildConverter_WPF\LEBuildConverter.WPF\Assets\screenshots")
 
 # Target display size — the placeholder box in the wizard
 # Using a bit wider than tall because most screenshots are landscape.
